@@ -1,7 +1,7 @@
 import { initSearch } from './search.js';
 import { initRecipeDetails, toggleSaveRecipe } from './recipeDetails.js';
 import { initMyRecipes } from './myRecipes.js';
-import { setCurrentPage } from './config.js';
+import {API_BASE_URL, setCurrentPage} from './config.js';
 
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');

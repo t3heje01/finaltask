@@ -58,37 +58,59 @@ export async function showRecipeDetails(mealId) {
                 ingredientsList.appendChild(li);
             }
         }
-        
+
+        // set instructions text element to api response instructions text
         detailsElement.querySelector('.instructions').textContent = meal.strInstructions;
 
+        // reset recipe details div to empty string and append the detailsElement to it (meal instructions basically)
         recipeDetails.innerHTML = '';
         recipeDetails.appendChild(detailsElement);
 
+        // add event listener to save button that calls toggleSaveRecipe function with meal id
         saveBtn.addEventListener('click', () => toggleSaveRecipe(meal.idMeal));
 
+        // change page to recipe details once everything is done
         setCurrentPage('recipe-details');
+
+        // select page, go through each and remove active class, add active class to recipe details page
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('recipe-details-page').classList.add('active');
+
     } catch (error) {
         console.error('Error loading recipe details:', error);
         recipeDetails.innerHTML = '<p>Error loading recipe details. Please try again.</p>';
     }
 }
 
+// recipe saving button, receives idmeal from api call
 export function toggleSaveRecipe(mealId) {
+
+    // get index of current mealID from myRecipes array (this is from localstorage)
     const index = myRecipes.indexOf(mealId);
+
+
+    // if index doesnt exist yet
     if (index === -1) {
+        // add new mealid to myRecipes array
         myRecipes.push(mealId);
+    // else remove since this is toggle function
     } else {
         myRecipes.splice(index, 1);
     }
+    // update localstorage with new array
     localStorage.setItem('myRecipes', JSON.stringify(myRecipes));
-    
+
+    // get savebutton
     const saveBtn = document.querySelector('.save-recipe-btn');
+    // ternary for toggling save button text
     saveBtn.textContent = myRecipes.includes(mealId) ? 'Remove from My Recipes' : 'Save to My Recipes';
-    
+
+
+    // if current page is my recipes (saved)
     if (currentPage === 'my-recipes') {
+        // get the div where saved recipes are displayed
         const myRecipesList = document.getElementById('my-recipes-list');
+        // call displayMyRecipes function with that div as arg
         displayMyRecipes(myRecipesList);
     }
 } 

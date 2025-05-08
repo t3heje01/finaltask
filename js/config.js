@@ -4,6 +4,8 @@ export let currentPage = 'search';
 export let previousPage = 'search';
 
 export function setCurrentPage(page) {
+    // where user came from
     previousPage = currentPage;
+    // where user is now
     currentPage = page;
 } 
